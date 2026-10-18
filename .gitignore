@@ -1,0 +1,34 @@
+# Local Python environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Notebook runtime and executed QA copies
+.ipynb_checkpoints/
+*.executed.ipynb
+jupyter-runtime/
+
+# Credentials must never enter the repository
+.env
+.env.*
+*.pem
+*.key
+credentials*.json
+service-account*.json
+
+# Local/editor/Office files and generated archives
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+~$*
+*.tmp
+*.log
+*.zip

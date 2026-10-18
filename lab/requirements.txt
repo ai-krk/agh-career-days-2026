@@ -1,0 +1,5 @@
+# Python 3.11+; install only into the workshop's virtual environment.
+# SDK contract checked against the official 2.28.0 release.
+google-genai==2.28.0
+jupyterlab>=4.4,<5
+ipykernel>=6.29,<8
