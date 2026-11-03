@@ -221,15 +221,26 @@ class HiddenInputTests(unittest.TestCase):
             fallback()
             return FAKE_KEY
 
-        with patch.object(check_gemini, "getpass", side_effect=unavailable_hidden_input):
+        with patch.object(check_gemini, "read_api_key", return_value=None), patch.object(
+            check_gemini, "getpass", side_effect=unavailable_hidden_input
+        ):
             with self.assertRaises(check_gemini.GetPassWarning):
                 check_gemini.read_key()
         fallback.assert_not_called()
 
     def test_key_is_read_only_through_getpass_and_trimmed(self):
-        with patch.object(check_gemini, "getpass", return_value="  " + FAKE_KEY + "  ") as hidden:
+        with patch.object(check_gemini, "read_api_key", return_value=None), patch.object(
+            check_gemini, "getpass", return_value="  " + FAKE_KEY + "  "
+        ) as hidden:
             self.assertEqual(check_gemini.read_key(), FAKE_KEY)
         hidden.assert_called_once()
+
+    def test_key_is_read_from_env_before_getpass(self):
+        with patch.object(check_gemini, "read_api_key", return_value=FAKE_KEY), patch.object(
+            check_gemini, "getpass"
+        ) as hidden:
+            self.assertEqual(check_gemini.read_key(), FAKE_KEY)
+        hidden.assert_not_called()
 
 
 if __name__ == "__main__":

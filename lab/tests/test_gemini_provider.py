@@ -7,14 +7,18 @@ constructed/serialized, but generate_content is still replaced by a fake client.
 from copy import deepcopy
 from base64 import b64encode
 import json
+import os
 from pathlib import Path
 import sys
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace as NS
 import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from gemini_provider import GeminiProvider, GeminiProviderError, MAX_REQUESTS, DEFAULT_MODEL
+from gemini_provider import (
+    GeminiProvider, GeminiProviderError, MAX_REQUESTS, DEFAULT_MODEL, read_api_key,
+)
 from lab_runtime import INSTRUCTIONS, load_case, run_investigation, tool_schemas
 from solutions import freshness_policy
 
@@ -77,6 +81,21 @@ def add_results(history, calls):
         history.append({"role": "tool", "tool_call_id": call.id, "name": call.name,
                         "content": {"status": "ok", "records": []}})
     return history
+
+
+class ApiKeyTests(unittest.TestCase):
+    def test_reads_key_from_env_file(self):
+        with TemporaryDirectory() as folder:
+            path = Path(folder) / ".env"
+            path.write_text("# local secret\nexport GEMINI_KEY = 'test-key'\n", encoding="utf-8")
+            with patch.dict(os.environ, {"GEMINI_KEY": ""}), patch(
+                "gemini_provider.Path.cwd", return_value=Path(folder)
+            ):
+                self.assertEqual(read_api_key(), "test-key")
+
+    def test_environment_key_takes_precedence(self):
+        with patch.dict(os.environ, {"GEMINI_KEY": " environment-key "}):
+            self.assertEqual(read_api_key(), "environment-key")
 
 
 class AdapterTests(unittest.TestCase):

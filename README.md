@@ -69,7 +69,7 @@ Po wspólnym starcie można pracować we własnym tempie do C11. Krótkie pytani
 
 - Dostęp studencki do czatu nie potwierdza dostępu do API. Przed zajęciami potwierdź z organizatorem projekt, model, limity i sposób rozliczania. Ta migracja repo nie obejmowała testu z rzeczywistym kluczem.
 - `LIVE_GEMINI` oznacza rzeczywiste żądania do API. `AUTHORED_FIXTURE` jest jawnym przykładem bez modelu i sieci; pozwala ukończyć lokalne testy.
-- Używaj tylko syntetycznych danych z repo. Klucz wpisuj wyłącznie w ukrytym polu `getpass`, nigdy w kodzie, pliku ani zgłoszeniu. Test przygotowania wysyła najwyżej jedno żądanie i nie zapisuje klucza. `--local-only` sprawdza lokalną konfigurację bez API.
+- Używaj tylko syntetycznych danych z repo. Klucz możesz wpisać w ukrytym polu `getpass` albo przechować lokalnie w ignorowanym przez Git pliku `.env` jako `GEMINI_KEY=...`; nigdy nie umieszczaj go w kodzie ani zgłoszeniu. Test przygotowania wysyła najwyżej jedno żądanie i nie zapisuje klucza. `--local-only` sprawdza lokalną konfigurację bez API.
 - Nie używaj „Run All”. Przed commitem notebooka wyczyść wszystkie wyniki i zamknij kernel.
 - `presenter/` zawiera odpowiedzi do ćwiczeń. Rozdzielenie folderów nie ukrywa ich w publicznym repo. Przed publicznym udostępnieniem prezentacji sprawdź prawa do użytych memów i grafik.
 

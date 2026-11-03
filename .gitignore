@@ -18,6 +18,7 @@ jupyter-runtime/
 # Credentials must never enter the repository
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 credentials*.json

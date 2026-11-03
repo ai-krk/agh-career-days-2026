@@ -1,4 +1,4 @@
-"""One-request readiness check. No key in code, files, output or exceptions."""
+"""One-request readiness check. No key in code, output or exceptions."""
 import argparse
 from getpass import GetPassWarning, getpass
 import importlib
@@ -8,6 +8,8 @@ from pathlib import Path
 import platform
 import sys
 import warnings
+
+from gemini_provider import read_api_key
 
 
 EXPECTED_SDK = "2.28.0"
@@ -34,6 +36,9 @@ def local_check():
 
 
 def read_key():
+    key = read_api_key()
+    if key:
+        return key
     # If hidden input is unavailable, stop before getpass can fall back to echo.
     with warnings.catch_warnings():
         warnings.simplefilter("error", GetPassWarning)

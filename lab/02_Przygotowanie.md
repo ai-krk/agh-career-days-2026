@@ -25,7 +25,7 @@ Klucz API to prywatny sekret pozwalający programowi korzystać z projektu. Trak
 2. Sprawdź konto i projekt. Nowe konto może już mieć automatycznie utworzony projekt i klucz.
 3. Jeśli nie ma klucza, wybierz **Create API key** i projekt przeznaczony do warsztatu. Nazwij klucz np. `AGH-workshop`. Nazwy przycisków mogą się nieco zmienić.
 4. Jeśli własny projekt nie jest widoczny, sprawdź **Dashboard → Projects → Import projects**. Jeśli nie masz projektu lub uprawnień, poproś organizatorów o wskazanie właściwego dostępu.
-5. Sprawdź plan i limity projektu. Skopiuj klucz dopiero, gdy poprosi o niego test. Możesz przechować go w menedżerze haseł; nie zapisuj w plikach repo.
+5. Sprawdź plan i limity projektu. Skopiuj klucz dopiero, gdy poprosi o niego test. Możesz przechować go w menedżerze haseł. Opcjonalnie skopiuj `.env.example` do `.env` i wpisz klucz po `GEMINI_KEY=`; możesz też utworzyć `.env` w `lab/`. Lokalny `.env` jest ignorowany przez Git. Nie udostępniaj go ani nie commituj.
 
 **Nie wysyłaj klucza prowadzącym, nie wklejaj go do kodu, GitHuba, maila ani na zrzut ekranu.** Jeśli go ujawnisz, unieważnij go w AI Studio i utwórz nowy. [Oficjalna instrukcja kluczy](https://ai.google.dev/gemini-api/docs/api-key).
 
@@ -127,7 +127,7 @@ W tym samym terminalu uruchom:
 Test najpierw sprawdzi lokalne pliki i biblioteki. Następnie:
 
 1. Przeczytaj pytanie o prawo do użycia projektu oraz jego rozliczenie. Wpisz `TAK` tylko wtedy, gdy te zasady są dla Ciebie jasne. **Nie jest to prośba o wysłanie klucza do zatwierdzenia.**
-2. Przy komunikacie o kluczu wklej swój klucz z AI Studio i naciśnij Enter. **Brak liter i gwiazdek podczas wklejania jest prawidłowy** — to ukryte pole.
+2. Jeśli `GEMINI_KEY` nie ma w pliku `.env` ani zmiennych środowiskowych, przy komunikacie o kluczu wklej swój klucz z AI Studio i naciśnij Enter. **Brak liter i gwiazdek podczas wklejania jest prawidłowy** — to ukryte pole.
 3. Poczekaj na wynik. Skrypt wysyła najwyżej jedno żądanie, ma limit czasu żądania 30 sekund i nie ponawia go automatycznie.
 
 Wysyłany jest tylko prompt `Reply with exactly: OK`, bez plików i danych ćwiczenia. **Nie uruchamiaj C01–C05 w ramach przygotowania.**

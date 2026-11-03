@@ -8,7 +8,9 @@ replayed verbatim. Only function proposals and the report enter the lab trace.
 
 from copy import deepcopy
 import json
+import os
 import re
+from pathlib import Path
 from time import perf_counter
 
 from lab_runtime import ModelReply, ToolCall, REPORT_KEYS, HYPOTHESES, tool_schemas
@@ -18,6 +20,31 @@ DEFAULT_MODEL = "gemini-3.5-flash-lite"
 MAX_REQUESTS = 5  # Per instance, INCLUDING new investigations and failed calls.
 TIMEOUT_MS = 30_000
 MAX_OUTPUT_TOKENS = 2048
+
+
+def read_api_key():
+    key = os.environ.get("GEMINI_KEY")
+    if key and key.strip():
+        return key.strip()
+    paths = (Path.cwd() / ".env", Path(__file__).resolve().parents[1] / ".env")
+    for path in dict.fromkeys(paths):
+        if not path.is_file():
+            continue
+        for line in path.read_text(encoding="utf-8-sig").splitlines():
+            name, separator, value = line.partition("=")
+            if not separator:
+                continue
+            name = name.strip()
+            if name.startswith("export "):
+                name = name[7:].strip()
+            if name == "GEMINI_KEY":
+                value = value.strip()
+                if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+                    value = value[1:-1]
+                if value:
+                    return value
+    return None
+
 
 _REPORT = {
     "name": "submit_report",
